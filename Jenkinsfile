@@ -17,7 +17,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 withMaven(maven:'maven') {
-                    sh 'mvn -f mule-jenkins-pipelin/pom.xml package deploy -Dusername=$ANYPOINT_USR -Dpassword=$PASSWORD_PSW -Denvironment=Development -DmuleDeploy'
+                    sh 'mvn -f mule-jenkins-pipeline/pom.xml package deploy -Dusername=$ANYPOINT_USR -Dpassword=$PASSWORD_PSW -Denvironment=Development -DmuleDeploy'
                 }
             }
         }
