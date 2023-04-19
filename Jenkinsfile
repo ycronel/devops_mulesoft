@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy CloudHub') { 
             steps {
-                sh "mvn clean deploy -DmuleDeploy -Dusername=${ANYPOINT_USR} -Dpassword=${ANYPOINT_PSW} -DappName=test_jenkins_app -Denvironment=Sandbox" 
+                sh "mvn -X clean deploy -DmuleDeploy -Dusername=${ANYPOINT_USR} -Dpassword=${ANYPOINT_PSW} -DappName=test_jenkins_app -Denvironment=Sandbox" 
             }
         }   
   }
