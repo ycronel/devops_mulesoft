@@ -7,20 +7,15 @@ pipeline {
         pollSCM('H/2 * * * *') 
     }
     stages {
-        stage('Build') {
-            steps {
-                withMaven(maven:'maven') {
-                    sh 'mvn -f mule-jenkins-pipeline/pom.xml clean install'
-                }
-            }
+        stage('Unit Test') { 
+        steps {
+            sh "mvn clean install"
         }
-        stage('Deploy') {
-            steps {
-                echo 'Hello World'
-                withMaven(maven:'maven') {
-                    sh 'mvn -f mule-jenkins-pipeline/pom.xml package deploy -Dusername=$ANYPOINT_USR -Dpassword=$PASSWORD_PSW -Denvironment=Development -DmuleDeploy'
-                }
-            }
         }
-    }
+        stage('Deploy CloudHub') { 
+            steps {
+                sh "mvn clean deploy -DmuleDeploy -Dusername=${ANYPOINT_USR} -Dpassword=${ANYPOINT_PSW} -DappName=test_jenkins_app -Denvironment=Sandbox" 
+            }
+        }   
+  }
 }

@@ -32,11 +32,13 @@
 				<configuration>
 					<cloudHubDeployment>
 						<uri>http://anypoint.mulesoft.com</uri>
-						<muleVersion>${app.runtime}</muleVersion>
+						<muleVersion>4.4.0</muleVersion>
 						<username>${username}</username>
 						<password>${password}</password>
-						<applicationName>${project.artifactId}</applicationName>
+						<applicationName>${appName}</applicationName>
 						<environment>${environment}</environment>
+						<workers>1</workers>
+						<workerType>MICRO</workerType>
 					</cloudHubDeployment>
 				</configuration>
 			</plugin>
