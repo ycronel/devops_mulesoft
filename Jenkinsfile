@@ -13,6 +13,10 @@ pipeline {
         }
         }
         stage('Deploy CloudHub') { 
+            withMaven (
+                maven:  "maven",
+                mavenLocalRepo: `$WORKSPACE/.repository`
+            )
             steps {
                 sh "mvn -X clean deploy -DmuleDeploy -Dusername=${ANYPOINT_USR} -Dpassword=${ANYPOINT_PSW} -DappName=test_jenkins_app -Denvironment=Sandbox" 
             }
