@@ -7,31 +7,20 @@ pipeline {
         pollSCM('H/2 * * * *') 
     }
     stages {
-        stage('Unit Test') { 
-        steps {
-            sh 'mvn clean install'
-        }
-        }
-        stage('Deploy Standalone') { 
+        stage('Build') {
             steps {
-                sh 'mvn deploy -P standalone'
+                withMaven(maven:'maven') {
+                    sh 'mvn -f mule-jenkins-pipeline/pom.xml clean install'
+                }
             }
         }
-        stage('Deploy ARM') { 
-            environment {
-                ANYPOINT_CREDENTIALS = credentials('anypoint.credentials') 
-            }
+        stage('Deploy') {
             steps {
-                sh 'mvn deploy -P arm -Darm.target.name=local-3.9.0-ee -Danypoint.username=${ANYPOINT_CREDENTIALS_USR}  -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}' 
-            }  
+                echo 'Hello World'
+                withMaven(maven:'maven') {
+                    sh 'mvn -f mule-jenkins-pipeline/pom.xml package deploy -Dusername=$ANYPOINT_USR -Dpassword=$PASSWORD_PSW -Denvironment=Development -DmuleDeploy'
+                }
+            }
         }
-        stage('Deploy CloudHub') { 
-            environment {
-                ANYPOINT_CREDENTIALS = credentials('anypoint.credentials')
-            }
-            steps {
-                sh 'mvn deploy -P cloudhub -Dmule.version=3.9.0 -Danypoint.username=${ANYPOINT_CREDENTIALS_USR} -Danypoint.password=${ANYPOINT_CREDENTIALS_PSW}' 
-            }
-        }   
-  }
+    }
 }
