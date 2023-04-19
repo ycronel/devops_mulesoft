@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Unit Test') { 
         steps {
-            sh 'mvn clean test'
+            sh 'mvn clean install'
         }
         }
         stage('Deploy Standalone') { 
